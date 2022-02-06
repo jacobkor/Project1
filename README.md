@@ -21,13 +21,14 @@ This document contains the following details:
 
 The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly available, in addition to restricting access to the network.
- - load balancer protect againts DDOS attacks and increase availability.  
- - the jump box will provide restricted access to the virtual network. 
+In addition to restricting access to the network, the load balancer ensures that the application will be highly available.
+The load balancer protects against DDOS attacks and increases availability.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the operating system and system services.
-- file beat will collect log events. 
-- metricbeat records statistics of operating system and services running on the servers.
+- The jump box will provide restricted access to the virtual network. 
+- Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the operating system and system services.
+
+- file beat will collect log events. 
+- metricbeat collects data on the performance of the operating system and server hardware.
 
 The configuration details of each machine may be found below.
 
@@ -40,12 +41,14 @@ The configuration details of each machine may be found below.
 
 ### Access Policies
 
-The machines on the internal network are not exposed to the public Internet. 
+The machines on the internal network are not exposed to the public Internet. 
 
-Only the JUMPBOX machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-69.169.83.89 
+Only the JUMPBOX machine can accept connections from the Internet using port 22. Access to this machine is only allowed from the following IP addresses:
 
-Machines within the network can only be accessed by the jump box machine with ip 10.0.0.4
+69.169.83.89 
+
+Machines within the network can only be accessed by the jump box machine with the IP 10.0.0.4
+
 Web servers (web1 & web2) are allowing public access thru load balancer on port 80 ONLY
 
 A summary of the access policies in place can be found in the table below.
@@ -59,7 +62,7 @@ A summary of the access policies in place can be found in the table below.
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because it can take a longer time to manually configure and install containers on each machine seperatly. when using ansible the playbook can be saved in order to user it for future configurations and install them on a lot of machine all togther. this will save a lot of time when there is a need to set up a lot of machines at the same time.
+Ansible was used to automate the configuration of the ELK machine. No configuration was performed manually, which is advantageous because it can take a longer time to manually configure and install containers on each machine separately. When using Ansible, the playbook can be saved in order to use it for future configurations and install them on a lot of machines all together. This will save a lot of time when there is a need to set up a lot of machines at the same time.
 
 
 
@@ -91,9 +94,9 @@ We have installed the following Beats on these machines:
 
 These Beats allow us to collect the following information from each machine:
 
-- Filebeat is used for forwarding and centralizing log data. it will monitor log files, collect log events and forward them to Elasticsearch, kibana   for indexing. 
+- Filebeat is used for forwarding and centralizing log data. It will monitor log files, collect log events and forward them to Kibana for indexing.  
 
-- Docker Metrics will monitor the dockers performance. it will analyze metrics like CPU usage, Memory Usage, Storage, Network load and other metrics we choose to monitor. 
+- Docker Metrics will monitor the dockers performance. It will analyze metrics like CPU usage, memory usage, storage, network load, and other metrics we choose to monitor.  
  
 
 ### Using the Playbook
@@ -113,23 +116,26 @@ SSH into the control node and follow the steps below:
 
 - SSH into the control node and follow the steps below:
 - Copy the ansible playbook and configuration files to  /etc/ansible/files
-- Edit Filebeat-config.yml - scroll down to line #1106 and edit the hosts ip address to your ELK machine private ip address using port 9200, scroll down to line #1806 and edit the hosts ip address to your ELK machine prive ip address usinf port 5601. 
+- Edit Filebeat-config.yml-scroll down to line # 1106 and edit the hosts ip address to your ELK machine's private ip address using port 9200. Scroll down to line # 1806 and edit the hosts ip address to your ELK machine's private ip address using port 5601. 
 - save the file
 - now run filebeat-playbook.yml to start the playbook and install filebeat 
-***please note if the group you want to install file beat name is different then 'websrvers' please edit the file (filebeat-playbook.yml) and change line #3 hosts to the desire group name.
 
-*** Dcoker metric Installation
+Please note: if the group you want to install file beat name for is different than "websrvers," please edit the file (filebeat-playbook.yml) and change line # 3 hosts to the desired group name.
+
+*** Docker metric Installation
 
 still whitin ansible follow these steps below: 
 - Copy the ansible playbook and configuration files to  /etc/ansible/files
-- Edit metricbeat-config.yml - scroll down to line #62 and change the ip to your ELK machine private ip using port 5601, scroll down to line #96 and   change the hosts ip address to you ELK machine prive ip using port 9200.
+- Edit metricbeat-config.yml - Scroll down to line #62 and replace the ip with your ELK machine's private ip using port 5601; scroll down to line #96 and replace the hosts ip address with your ELK machine's private ip using port 9200.
 - save the file 
 - now run metricbeat.yml to start the playbook and install filebeat 
-***please note if the group you want to install file beat name is different then 'websrvers' please edit the file (metricbeat.yml) and change line #3 host to the desire group name.
+
+please note if the group you want to install Docker metric name is different then 'websrvers' please edit the file (metricbeat.yml) and change line #3 host to the desire group name.
 
 Answer the following questions to fill in the blanks:
 -  Which file is the playbook? install-elk.yml  Where do you copy it? /etc/ansible/install-elk.yml
--  Which file do you update to make Ansible run the playbook on a specific machine? update the /etc/ansible/hosts file  How do I specify which machine   to install the ELK server on versus which to install Filebeat on? by specifying the group name (webservers/elk) - two groups we have set on the     hosts file. 
+-  Which file do you update to make Ansible run the playbook on a specific machine? update the /etc/ansible/hosts file  
+-  How do I specify which machine to install the ELK server on versus which to install Filebeat on? by specifying the group name (webservers/elk) -    two groups we have set on the hosts file. 
 - Which URL do you navigate to in order to check that the ELK server is running? http://[ELK-SERVER-PUBLIC-IP]:5061/
 
  As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc.
