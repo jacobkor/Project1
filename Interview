@@ -2,16 +2,29 @@ Network Security: Faulty Firewall
 
 1. I have a firewall that is supposed to block SSH connections to the machines, but instead it will let them through. How can I debug it? 
 
-2. In Project One, I have allowed ssh connections to all machines but with a certain configuration. First, I had the Jumpbox VM, which is the door to my virtual network. 
-The jumpbox will allow SSH connections, but it will be restricted only to my public home IP address. The jumpbox will refuse any other IP addresses trying to SSH. Next, web1, web2, and Elk servers all had SSH connections allowed,
-but with a restriction to allow SSH connections only from their jumpbox private IP address (10.0.0.4). Any other attempts to SSH these machines not using jumbox vm will be refused. So if anyone tries to ssh into any of these machines without using the jump box, the connection will be refused and they won't be able to log in because we have set our network security group to allow SSH only from our jumpbox machine. 
+2. In Project One, I have allowed ssh connections to all machines but with a certain configuration. First, I had the Jumpbox VM, which is the door to my virtual network.
+The jumpbox will allow SSH connections, but it will be restricted only to my public home IP address. The jumpbox will refuse any other IP addresses trying to SSH. 
+Next, web1, web2, and Elk servers all had SSH connections allowed. with a restriction to allow SSH connections only from their jumpbox private IP address using the ansible 
+container (10.0.0.4). Any other attempts to SSH these machines not using a jumbox VM ansible container will be refused. So if anyone tries to ssh into any of
+these machines without using the jump box ansible container, the connection will be timed out and they won't be able to log in because we have set our network security group
+to allow SSH only from our jumpbox machine. 
 
-3.If one of the machines in my virtual network accepts SSH from an unauthorized IP address, I'll assume the problem is with the network security group. configuration was incorrect and needs to be looked at. When allowing SSH connections to a machine, we need to make sure that we have our jumpbox private IP address in the source field. Otherwise, if we just allow SSH connections and leave the source field as "any", it means that anyone can SSH to our machine.
+3. If one of the machines in my virtual network accepts SSH from an unauthorized IP address, I'll assume the problem is with the network security group. 
+The configuration was incorrect and needs to be looked at. When allowing SSH connections to a machine, we need to make sure that we have our jumpbox's private IP address
+in the source field. Otherwise, if we just allow SSH connections and leave the source field as "any", it means that anyone can SSH to our machine. After checking the network
+security group and configuring the SSH connection with our jumpbox IP ansible container , I will try to SSH to these machines from an unauthorized IP address. 
+If the connection is timedout, it means everything is configured correctly and the firewall is configured as needed.
 
-After checking the network security group and configuring the SSH connection with our jumpbox IP, I will try to SSH to these machines from an unauthorized IP address. If the connection is refused, it means everything is configured correctly and the firewall is configured as needed.
+4. To investigate the problem, I will check the network security group in the Azure UI. First, I want to make sure that all ports are denied (defualt-deny).
+This way, I can specify which ports I want to allow with the appropriate restrictions. Next, I want to make sure the jump box has port 22 open and configured with a restriction
+to allow only  my home IP address to access it. Then all other machines on the virtual network will allow SSH connections but with my jumpbox's private IP only,
+so the setting will be:  source: 10.0.0.4 destination: virtualnetwork With these settings, only the jumpbox will be allowed to SSH machines on the virtual network.
+I always want to make sure when I allow SSH connections on my virtual network that the source and destination are set correctly. A wrong configuration will expose my
+network to unautorized SSH connections.
 
-4. To investigate the problem, I will check the network security group in the Azure UI. First, I want to make sure that all ports are denied (defualt-deny). This way, I can specify which ports I want to allow with the appropriate restrictions. Next, I want to make sure the jump box has port 22 open and configured with my home public IP only. Then all other machines on the virtual network will allow SSH connections but with my jumpbox's private IP only, so the setting will be allow port 22 source: 10.0.0.4 destination : virtualnetwork-With these settings, only the jumpbox will be allowed to SSH machines on the virtual network. I always want to make sure when I allow SSH connections on my virtual network that the source is set correctly. A wrong configuration will expose my network to unautorized SSH connections.
+My solution is very strong because we have only one access point to our network and it allows only one IP address with an RSA key. I believe there is no "immune" to anything.
+If someone hacks my personal computer to spoof my IP address and uses it as a "jumpbox," connecting into our virtual network jumpbox, then our network is exposed. 
 
-My solution is very strong because we have only one access point to our network and it allows only 1 IP address with an RSA key. I believe there is no "immune" in anything. If someone hacks my personal computer to spoof my IP address and uses it as a "jumpbox," connecting into our virtual network jumpbox, then our network is exposed. 
-
-In order to monitor suspicious authentication attempts, we can use Azure Advance Threat Protection (ATP). It will monitor brute force attacks, suspicious sign-in activities, configuration vulnerabilities, lead credential leaks, and infected devices. This will help a lot in order to keep our network safe and will help monitor any potential vulnerabilities in our network. 
+In order to monitor suspicious authentication attempts, we can use Kibana or use other apps like Azure Advance Threat Protection (ATP).
+It will monitor brute-force attacks. suspicious sign-in activities, configuration vulnerabilities, lead credential leaks, and infected devices.
+This will help a lot in order to keep our network safe and will help monitor any potential vulnerabilities on our network. 
