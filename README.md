@@ -6,7 +6,7 @@ The files in this repository were used to configure the network depicted below.
 
 These files have been tested and used to generate a live ELK deployment on Azure. They can be used to either recreate the entire deployment pictured above. Alternatively, select portions of the readme file may be used to install only certain pieces of it, such as Filebeat.
 all the playbook files are located in: 
-  /Playbooks
+  /playbooks
 
 This document contains the following details:
 - Description of the Topology
@@ -46,15 +46,15 @@ Only the JUMPBOX machine can accept connections from the Internet. Access to thi
 69.169.83.89 
 
 Machines within the network can only be accessed by the jump box machine with ip 10.0.0.4
-
+Web servers (web1 & web2) are allowing public access thru load balancer on port 80 ONLY
 
 A summary of the access policies in place can be found in the table below.
 
 | name       | Publicly Accessible | Allowed IP Addresses |
 |------------|---------------------|----------------------|
 | Jump Box   | YES                 | 69.169.83.89         |
-| WEB1       | ONLY PORT 80        | 10.0.0.4             |
-| WEB2       | ONLY PORT 80        | 10.0.0.4             |
+| WEB1       | NO                  | 10.0.0.4             |
+| WEB2       | NO                  | 10.0.0.4             |
 | ELK Server | YES                 | 69.169.83.89         |
 
 ### Elk Configuration
@@ -113,7 +113,7 @@ SSH into the control node and follow the steps below:
 
 - SSH into the control node and follow the steps below:
 - Copy the ansible playbook and configuration files to  /etc/ansible/files
-- Edit Filebeat-config.yml - scroll down to line #1106 and edit the hosts ip address to your ELK machine private ip address using port 9200, scroll down to  line #1806  and       edit the hosts ip address to your ELK machine prive ip address usinf port 5601. 
+- Edit Filebeat-config.yml - scroll down to line #1106 and edit the hosts ip address to your ELK machine private ip address using port 9200, scroll down to line #1806 and edit the hosts ip address to your ELK machine prive ip address usinf port 5601. 
 - save the file
 - now run filebeat-playbook.yml to start the playbook and install filebeat 
 ***please note if the group you want to install file beat name is different then 'websrvers' please edit the file (filebeat-playbook.yml) and change line #3 hosts to the desire group name.
@@ -122,18 +122,19 @@ SSH into the control node and follow the steps below:
 
 still whitin ansible follow these steps below: 
 - Copy the ansible playbook and configuration files to  /etc/ansible/files
-- Edit metricbeat-config.yml - scroll down to line #62 and change the ip to your ELK machine private ip using port 5601, scroll down to line #96 and change the hosts ip address   to you ELK machine prive ip using port 9200.
+- Edit metricbeat-config.yml - scroll down to line #62 and change the ip to your ELK machine private ip using port 5601, scroll down to line #96 and   change the hosts ip address to you ELK machine prive ip using port 9200.
 - save the file 
 - now run metricbeat.yml to start the playbook and install filebeat 
 ***please note if the group you want to install file beat name is different then 'websrvers' please edit the file (metricbeat.yml) and change line #3 host to the desire group name.
 
-Answer the following questions to fill in the blanks:_
+Answer the following questions to fill in the blanks:
 -  Which file is the playbook? install-elk.yml  Where do you copy it? /etc/ansible/install-elk.yml
 -  Which file do you update to make Ansible run the playbook on a specific machine? update the /etc/ansible/hosts file  How do I specify which machine   to install the ELK server on versus which to install Filebeat on? by specifying the group name (webservers/elk) - two groups we have set on the     hosts file. 
 - Which URL do you navigate to in order to check that the ELK server is running? http://[ELK-SERVER-PUBLIC-IP]:5061/
 
  As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc.
  
- - All playbooks, configurations file and this readme file can be downloaded using: git clone https://github.com/jacobkor/project1.git
+ - All playbook and configurations files  can be downloaded using: git clone https://github.com/jacobkor/playbooks.git
  - To update any of the .yml files use: nano <filname.yml> 
  - TO run a playbook use: ansible-playbook <file.yml>
+ 
