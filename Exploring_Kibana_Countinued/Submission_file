@@ -1,0 +1,34 @@
+Activity File: Kibana Continued
+
+all screenshots are in: 
+/exploring-kibana-continued
+
+SSH Barrage: 
+
+For this activity, I have created a bash script "while" loop. This will ssh both of the VM's non-stop until CTRL+C is pressed.
+This is my script: 
+
+#!/bin/bash
+while :
+do
+    ssh sysadmin@10.0.0.5
+  	ssh sysadmin@10.0.0.6
+    echo "infinite loops [ hit CTRL+C to stop ]"
+done
+
+
+
+Activity File:Linux Strees: 
+
+Activity File: wget-DoS
+
+For this activity, I have created another bash script to do the following: It will infinitely wget both WEB VM's and remove the index file downloaded. 
+
+#!/bin/bash
+while :
+do
+    wget 10.0.0.5
+    wget 10.0.0.6
+    echo "infinite loops [ hit CTRL+C to stop ]"
+    rm index.*
+done
