@@ -19,19 +19,29 @@
     - In the last 7 days, how many unique visitors were located in India?
 
 	250 unique visitors
+	
+	![alt text](https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/unique-visitors-logs-india.png "unique visitors india")
+
 
     - In the last 24 hours, of the visitors from China, how many were using Mac OSX? 
 	
 	9 visitors 
+	
+	![alt text](https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/last-24-hours-china-osx.png "MAC OSX China")
 
     - In the last 2 days, what percentage of visitors received 404 errors? How about 503 errors?
 	
 	404 - 5.9%
 	503 - 4.6%
+	![alt text]https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/last-two-days-response-codes.png "Response Codes")
 	
-    - In the last 7 days, what country produced the majority of the traffic on the website? -- china 
+    - In the last 7 days, what country produced the majority of the traffic on the website? -- china
+    
+       ![alt text]https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/last-7-days-majority-of-traffic.png "Majority of traffic")
 
-    - Of the traffic that's coming from that country, what time of day had the highest amount of activity? 12:00, 13:00 both hours have the highest amount of activity.
+    - Of the traffic that's coming from that country, what time of day had the highest amount of activity? 12:00, 13:00 both hours have the highest amount of activity
+    
+       ![alt text]https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/heat-map-highst-activitiy.png "Heat Map")
 	
     - List all the types of downloaded files that have been identified for the last 7 days, along with a short description of each file type (use Google if you aren't sure about a particular file type).
 	
@@ -42,13 +52,15 @@
 	.rpm - red hat package manager file 
 	
 
-	
+        ![alt text]https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/file-type-downloaded.png "Files Downloaded")	
 	
 	
 
 3. Now that you have a feel for the data, Let's dive a bit deeper. Look at the chart that shows Unique Visitors Vs. Average Bytes.
      - Locate the time frame in the last 7 days with the most amount of bytes (activity).
 	 01/30 @ 19:00 had 1 visitor with 15,709 bytes
+	 
+	 ![alt text]https://github.com/jacobkor/Project1/blob/main/Exploring_Kibana/unique-visitors-vs-activity.png "Unique Visitors Vs. Average Bytes")	
 
      - In your own words, is there anything that seems potentially strange about this activity?
        looks like somone trying to do somthing not sure what yet but comparing to other data in thie unique visitors vs. avarage bytes there is a lot of bytes for 1 user and this is definatly sespicous.
